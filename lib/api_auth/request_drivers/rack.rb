@@ -56,7 +56,7 @@ module ApiAuth
       end
 
       def request_uri
-        @request.url
+        @request.path
       end
 
       def set_date
