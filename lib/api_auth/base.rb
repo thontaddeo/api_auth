@@ -33,7 +33,7 @@ module ApiAuth
     def authentic?(request, secret_key)
       return false if secret_key.nil?
 
-      return !md5_mismatch?(request) && signatures_match?(request, secret_key) && !request_too_old?(request)
+      return signatures_match?(request, secret_key)
     end
 
     # Returns the access id from the request's authorization header
@@ -85,11 +85,11 @@ module ApiAuth
     end
 
     def auth_header(request, access_id, secret_key)
-      "APIAuth #{access_id}:#{hmac_signature(request, secret_key)}"
+      "#{access_id}:#{hmac_signature(request, secret_key)}"
     end
 
     def parse_auth_header(auth_header)
-      Regexp.new("APIAuth ([^:]+):(.+)$").match(auth_header)
+      Regexp.new("([^:]+):(.+)$").match(auth_header)
     end
 
   end # class methods
